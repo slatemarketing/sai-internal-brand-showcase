@@ -2,12 +2,22 @@
 
 import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { checkCDNHealth, type CDNHealthStatus } from "@/lib/cdn-health";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { checkCDNHealth } from "@/lib/cdn-health";
 import { Wifi, WifiOff, Clock } from "lucide-react";
 
 export function CDNStatus() {
-  const [health, setHealth] = useState<CDNHealthStatus | null>(null);
+  const [health, setHealth] =
+    useState<
+      ReturnType<typeof checkCDNHealth> extends Promise<infer T>
+        ? T
+        : never | null
+    >();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -23,7 +33,7 @@ export function CDNStatus() {
     };
 
     checkHealth();
-    
+
     // Check health every 5 minutes
     const interval = setInterval(checkHealth, 5 * 60 * 1000);
     return () => clearInterval(interval);
@@ -52,16 +62,19 @@ export function CDNStatus() {
   }
 
   const isAllHealthy = health.logos.isHealthy && health.colorPalette.isHealthy;
-  const avgResponseTime = health.logos.responseTime && health.colorPalette.responseTime
-    ? Math.round((health.logos.responseTime + health.colorPalette.responseTime) / 2)
-    : undefined;
+  const avgResponseTime =
+    health.logos.responseTime && health.colorPalette.responseTime
+      ? Math.round(
+          (health.logos.responseTime + health.colorPalette.responseTime) / 2
+        )
+      : undefined;
 
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Badge 
-            variant={isAllHealthy ? "default" : "destructive"} 
+          <Badge
+            variant={isAllHealthy ? "default" : "destructive"}
             className="gap-1"
           >
             {isAllHealthy ? (
@@ -76,13 +89,21 @@ export function CDNStatus() {
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-4">
               <span>Logo CDN:</span>
-              <Badge variant={health.logos.isHealthy ? "default" : "destructive"} className="text-xs">
+              <Badge
+                variant={health.logos.isHealthy ? "default" : "destructive"}
+                className="text-xs"
+              >
                 {health.logos.isHealthy ? "Online" : "Offline"}
               </Badge>
             </div>
             <div className="flex items-center justify-between gap-4">
               <span>Palette CDN:</span>
-              <Badge variant={health.colorPalette.isHealthy ? "default" : "destructive"} className="text-xs">
+              <Badge
+                variant={
+                  health.colorPalette.isHealthy ? "default" : "destructive"
+                }
+                className="text-xs"
+              >
                 {health.colorPalette.isHealthy ? "Online" : "Offline"}
               </Badge>
             </div>
