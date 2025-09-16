@@ -1,102 +1,82 @@
 import Image from "next/image";
+import { LogoGallery } from "@/components/logo-gallery";
+import { ColorPalette } from "@/components/color-palette";
+import { TypographyShowcase } from "@/components/typography-showcase";
+import { BrandHeader } from "@/components/brand-header";
+import { ErrorBoundary } from "@/components/error-boundary";
+import { CDNStatus } from "@/components/cdn-status";
+import { Separator } from "@/components/ui/separator";
+import {
+  logoConfig,
+  paletteLinks,
+  primaryColors,
+  fullPalette,
+} from "@/lib/data";
 
-export default function Home() {
+export default function BrandAssetsPage() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <BrandHeader />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+      {/* Main Content */}
+      <main className="container mx-auto px-6 py-12 max-w-7xl space-y-20">
+        {/* Logo Gallery Section */}
+        <ErrorBoundary>
+          <section id="logos" className="scroll-mt-8">
+            <LogoGallery logoConfig={logoConfig} />
+          </section>
+        </ErrorBoundary>
+
+        <Separator className="my-16" />
+
+        {/* Color Palette Section */}
+        <ErrorBoundary>
+          <section id="colors" className="scroll-mt-8">
+            <ColorPalette
+              primaryColors={primaryColors}
+              fullPalette={fullPalette}
+              paletteLinks={paletteLinks}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+          </section>
+        </ErrorBoundary>
+
+        <Separator className="my-16" />
+
+        {/* Typography Section */}
+        <ErrorBoundary>
+          <section id="typography" className="scroll-mt-8">
+            <TypographyShowcase />
+          </section>
+        </ErrorBoundary>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      {/* Footer */}
+      <footer className="border-t bg-muted/30 mt-20">
+        <div className="container mx-auto px-6 py-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="h-8 w-8 rounded-lg bg-white/10 backdrop-blur flex items-center justify-center p-1.5">
+                <Image
+                  src="https://cdn.slateai.org/Logos/FINAL/centered/slate-logo-obsidian-gemini-centered-v1.png"
+                  alt="SlateAI Logo"
+                  width={24}
+                  height={24}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div>
+                <p className="font-semibold">SlateAI</p>
+                <p className="text-sm text-muted-foreground">
+                  AI Automation Agency
+                </p>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              © 2025 SlateAI. Internal brand assets for team use only.
+            </p>
+          </div>
+        </div>
       </footer>
     </div>
   );
